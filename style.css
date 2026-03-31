@@ -1,0 +1,125 @@
+* {
+  margin:0 ;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+
+.body {
+  min-height: 120vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a1f2e;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+
+.container {
+  background: #252c3d;
+  border-radius: 24px;
+  padding: 24px;
+  width: 320px;
+  box-shadow: 0 20px 60px rgba(23, 34, 67, 0.5);
+}
+/* Split display */
+.display-container {
+  display: grid;
+  grid-template-columns: 1fr 0.6fr 1fr 1fr;
+  gap: 5px;
+  margin-bottom: 15px;
+}
+
+.display {
+  height: 50px;
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 18px;
+  background: #111;
+  color: #fff;
+}
+
+
+.part4 {
+  background: #111520;
+  color: #fff;
+  font-size: 24px;
+  text-align: right;
+  padding: 16px 20px;
+}
+
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+
+button {
+  height: 62px;
+  border: none;
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.08s ease, filter 0.08s ease;
+}
+
+button:active {
+  transform: scale(0.92);
+  filter: brightness(0.8);
+}
+
+
+.btn-number {
+  background: #313a52;
+  color: #1c43c4;
+  box-shadow: 0 4px 0 #1c2235;
+}
+
+.btn-number:hover {
+  background: #3a4461;
+}
+
+
+.btn-operator {
+  background: #f8a920db;
+  color: #e3dddd;
+  box-shadow: 0 4px 0 #b87200;
+}
+
+.btn-operator:hover {
+  background: #f0ae3c;
+}
+
+.btn-equal {
+  /* grid-column: 1 / 4;
+  grid-row: 5 /4; */
+  background: #2ba45d;
+  color: #f6f6f6;
+  font-size: 24px;
+  border-radius: 14px;
+  box-shadow: 0 4px 0 #234b34;
+  width: 270px;
+    margin-top: 10px;
+}
+
+.btn-equal:hover {
+  background: #04f464;
+}
+.footer {
+    background: rgba(255, 255, 255, 0);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255,255,255,0.2);
+    text-align: center;
+    padding: 10px;
+    color: rgba(225, 223, 233, 0.9);
+    font-weight: bold;
+    font-size: 14px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
