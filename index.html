@@ -11,21 +11,15 @@
 <body class="body">
   <div class="container">
     <div class="display-container">
-    <input type="text" id="first-number" class="display part1" placeholder="A" readonly style="width: 7.5rem" onclick="changeField('1')">
-    <input type="text" id="operator" class="display part2" placeholder="Op" readonly style="width: 2rem">
-    <input type="text" id="second-number" class="display part3" placeholder="B" readonly style="width: 7.5rem" onclick="changeField('2')">
-    <!-- <input type="text" class="display part3" placeholder="B" readonly style="width: 7.5rem"> -->
-
-  </div>
-    <div class="display-container">
-    <input type="text" class="display part4" placeholder="Result" readonly style="width: 17rem" id="result">
-  </div>
+  <input type="text" class="display" id="display" placeholder="0" readonly>
+</div>
+   
     <div class="buttons">
       
       <button class="btn-operator" value="clear" onclick="allclear()">C</button>
        <button class="btn-operator" value="sqrt" onclick="clearOne()">⌫</button>
       <button class="btn-operator" value="square" onclick="sign()">+/-</button>
-      <button class="btn-operator" value="square" onclick="addOperator('%')">%</button>
+      <!-- <button class="btn-operator" value="square" onclick="addOperator('%')">%</button> -->
       <button class="btn-operator" onclick="addOperator('%')">%</button>
 
 
@@ -34,14 +28,14 @@
       <button class="btn-number" value="9" onclick="addNumber(9);">9</button>
       <button class="btn-number" value="8" onclick="addNumber(8);">8</button>
       <button class="btn-number" value="7" onclick="addNumber(7);">7</button>
-      <button class="btn-operator" onclick="addOperator('/')">÷</button>
+      <button class="btn-operator" onclick="addOperator('÷')">÷</button>
 
 
       <button class="btn-number" value="6" onclick="addNumber(6);">6</button>
       <button class="btn-number" value="5" onclick="addNumber(5);">5</button>
 
       <button class="btn-number" value="4" onclick="addNumber(4);">4</button>
-      <button class="btn-operator" onclick="addOperator('*')">×</button>
+      <button class="btn-operator" onclick="addOperator('×')">×</button>
 
       <button class="btn-number" value="3" onclick="addNumber(3);">3</button>
       <button class="btn-number" value="2" onclick="addNumber(2);">2</button>
