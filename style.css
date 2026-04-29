@@ -6,8 +6,8 @@
 }
 
 body {
-  height: 100vh;
-  height: 120dvh;
+  height: 120vh;
+  height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,7 +20,7 @@ body {
   background: #252c3d;
   border-radius: 24px;
   padding: 20px;
-  width: 92vw;        /* Mobile pe wide */
+  width: 96vw;        /* Mobile pe wide */
   max-width: 420px;   /* Desktop pe limit */
   box-shadow: 0 20px 60px rgba(23, 34, 67, 0.5);
 }
@@ -95,7 +95,7 @@ button:active {
   border-radius: 14px;
   box-shadow: 0 4px 0 #234b34;
   width: 100%;
-  margin-top: 8px;
+  margin-top: 10px;
   touch-action: manipulation; /* Equal button ke liye bhi */
 }
 
