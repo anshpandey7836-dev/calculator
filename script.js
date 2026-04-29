@@ -89,7 +89,7 @@ function addNumber(num) {
     let lastPart = parts[parts.length - 1];
     if (lastPart.includes(".")) return;
   }
-  expression += num;
+  expression += String(num);
   display.value = expression.replace(/\*\*/g, "^");
 }
 
@@ -97,7 +97,12 @@ function addOperator(op) {
   if (!expression && op !== "-") return;
   justCalculated = false;
 
-  let actualOp = op === "^" ? "**" : op;
+  // Display symbol → actual operator conversion
+  let actualOp;
+  if (op === "^") actualOp = "**";
+  else if (op === "÷") actualOp = "/";
+  else if (op === "×") actualOp = "*";
+  else actualOp = op;
 
   if (expression.slice(-2) === "**") {
     expression = expression.slice(0, -2) + actualOp;
@@ -107,7 +112,11 @@ function addOperator(op) {
     expression += actualOp;
   }
 
-  display.value = expression.replace(/\*\*/g, "^");
+  // Display me symbol dikhao, expression me actual operator store karo
+  display.value = expression
+    .replace(/\*\*/g, "^")
+    .replace(/\*/g, "×")
+    .replace(/\//g, "÷");
 }
 
 function allclear() {
@@ -122,43 +131,48 @@ function clearOne() {
   } else {
     expression = expression.slice(0, -1);
   }
-  display.value = expression.replace(/\*\*/g, "^") || "";
+  display.value = expression
+    .replace(/\*\*/g, "^")
+    .replace(/\*/g, "×")
+    .replace(/\//g, "÷") || "";
 }
 
 function sign() {
   if (!expression) return;
 
-  let match = expression.match(/([\+\-\*\/\%\(]?)(-?)(\d+\.?\d*)$/);
+  let match = expression.match(/^(.*[\+\*\/\%])?(-?)(\d+\.?\d*)$/);
   if (!match) return;
 
-  let num = match[3];
+  let before = match[1] || "";
   let hasNegative = match[2] === "-";
-  let beforeNum = expression.slice(0, expression.length - match[0].length);
-  let connector = match[1];
+  let num = match[3];
 
   if (hasNegative) {
-    expression = beforeNum + connector + num;
+    expression = before + num;
   } else {
-    expression = beforeNum + connector + "-" + num;
+    expression = before + "-" + num;
   }
 
-  display.value = expression.replace(/\*\*/g, "^");
+  display.value = expression
+    .replace(/\*\*/g, "^")
+    .replace(/\*/g, "×")
+    .replace(/\//g, "÷");
 }
 
 function calculate() {
   if (!expression) return;
 
-  try {
-    if (!/^[0-9\+\-\*\/\%\.\(\)\*\s]+$/.test(expression)) {
-      display.value = "Invalid Expression";
-      expression = "";
-      justCalculated = true;
-      return;
-    }
+  if (/\/0(\D|$)/.test(expression)) {
+    display.value = "Invalid Expression";
+    expression = "";
+    justCalculated = true;
+    return;
+  }
 
+  try {
     let result = eval(expression);
 
-    if (!isFinite(result)) {
+    if (result === Infinity || result === -Infinity || isNaN(result)) {
       display.value = "Invalid Expression";
       expression = "";
     } else {
