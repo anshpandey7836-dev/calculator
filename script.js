@@ -84,22 +84,30 @@ function addNumber(num) {
     expression = "";
     justCalculated = false;
   }
-  if (num === "." && expression.split(/[\+\-\*\/\%]/).pop().includes(".")) return;
+  if (num === ".") {
+    let parts = expression.split(/[\+\-\*\/\%]/);
+    let lastPart = parts[parts.length - 1];
+    if (lastPart.includes(".")) return;
+  }
   expression += num;
-  display.value = expression.replace(/\*\*/g, '^');
+  display.value = expression.replace(/\*\*/g, "^");
 }
 
 function addOperator(op) {
+  if (!expression && op !== "-") return;
   justCalculated = false;
-  let actualOp = (op === '^') ? '**' : op;
-  let lastTwo = expression.slice(-2);
-  if (lastTwo === '**') {
-    expression = expression.slice(0, -2);
-  } else if (expression && '+-*/%'.includes(expression.slice(-1))) {
-    expression = expression.slice(0, -1);
+
+  let actualOp = op === "^" ? "**" : op;
+
+  if (expression.slice(-2) === "**") {
+    expression = expression.slice(0, -2) + actualOp;
+  } else if (["+", "-", "*", "/", "%"].includes(expression.slice(-1))) {
+    expression = expression.slice(0, -1) + actualOp;
+  } else {
+    expression += actualOp;
   }
-  expression += actualOp;
-  display.value = expression.replace(/\*\*/g, '^');
+
+  display.value = expression.replace(/\*\*/g, "^");
 }
 
 function allclear() {
@@ -109,40 +117,59 @@ function allclear() {
 }
 
 function clearOne() {
-  if (expression.slice(-2) === '**') {
+  if (expression.slice(-2) === "**") {
     expression = expression.slice(0, -2);
   } else {
     expression = expression.slice(0, -1);
   }
-  display.value = expression.replace(/\*\*/g, '^');
+  display.value = expression.replace(/\*\*/g, "^") || "";
 }
 
 function sign() {
   if (!expression) return;
-  let match = expression.match(/(-?\d+\.?\d*)$/);
-  if (match) {
-    let num = match[1];
-    let toggled = num.startsWith('-') ? num.slice(1) : '-' + num;
-    expression = expression.slice(0, expression.length - num.length) + toggled;
-    display.value = expression.replace(/\*\*/g, '^');
+
+  let match = expression.match(/([\+\-\*\/\%\(]?)(-?)(\d+\.?\d*)$/);
+  if (!match) return;
+
+  let num = match[3];
+  let hasNegative = match[2] === "-";
+  let beforeNum = expression.slice(0, expression.length - match[0].length);
+  let connector = match[1];
+
+  if (hasNegative) {
+    expression = beforeNum + connector + num;
+  } else {
+    expression = beforeNum + connector + "-" + num;
   }
+
+  display.value = expression.replace(/\*\*/g, "^");
 }
 
 function calculate() {
   if (!expression) return;
+
   try {
-    let res = eval(expression);
-    if (!isFinite(res)) {
-      display.value = "Can't divide by zero";
+    if (!/^[0-9\+\-\*\/\%\.\(\)\*\s]+$/.test(expression)) {
+      display.value = "Invalid Expression";
+      expression = "";
+      justCalculated = true;
+      return;
+    }
+
+    let result = eval(expression);
+
+    if (!isFinite(result)) {
+      display.value = "Invalid Expression";
       expression = "";
     } else {
-      let finalResult = parseFloat(res.toFixed(10));
-      display.value = finalResult;
-      expression = String(finalResult);
+      let final = parseFloat(result.toFixed(10));
+      display.value = final;
+      expression = String(final);
     }
   } catch (e) {
     display.value = "Invalid Expression";
     expression = "";
   }
+
   justCalculated = true;
 }
